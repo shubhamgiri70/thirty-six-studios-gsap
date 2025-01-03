@@ -7,3 +7,7 @@ body {
   background-color: black;
   font-family: "Helvetica_Now_Display", sans-serif !important;
 }
+
+canvas {
+  pointer-events: none;
+}

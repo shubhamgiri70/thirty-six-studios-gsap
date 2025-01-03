@@ -9,7 +9,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full flex justify-between items-center px-5 py-3 z-50 bg-transparent">
+    <nav className="top-0 w-full flex justify-between items-center px-5 py-3 z-50 bg-transparent">
       <div className="text-lg font-normal">
         <a href="/" className="text-white no-underline">
           thirtysixstudios
