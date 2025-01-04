@@ -11,3 +11,7 @@ body {
 canvas {
   pointer-events: none;
 }
+
+span.growing {
+  background-color: red;
+}

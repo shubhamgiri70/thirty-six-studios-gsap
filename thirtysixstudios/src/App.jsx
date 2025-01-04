@@ -4,18 +4,58 @@ import data from "./data";
 import LocomotiveScroll from "locomotive-scroll";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
+import gsap from "gsap";
 
 const App = () => {
   const [showCanvas, setShowCanvas] = useState(false);
-  const headingref = useRef(null);
+  const headingRef = useRef(null);
+  const growingSpan = useRef(null);
+
   useEffect(() => {
     const locomotiveScroll = new LocomotiveScroll();
-    headingref.current.addEventListener("click", () => {
-      setShowCanvas(true);
-    });
+
+    return () => locomotiveScroll.destroy();
   }, []);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      setShowCanvas((prev) => !prev);
+      gsap.set(growingSpan.current, {
+        top: e.clientY,
+        left: e.clientX,
+        scale: 0,
+      });
+
+      gsap.to(growingSpan.current, {
+        scale: 1000,
+        duration: 1.2,
+        ease: "power2.inOut",
+        onComplete: () => {
+          gsap.set(growingSpan.current, {
+            scale: 0,
+            clearProps: "all",
+          });
+        },
+      });
+    };
+
+    if (headingRef.current) {
+      headingRef.current.addEventListener("click", handleClick);
+    }
+
+    return () => {
+      if (headingRef.current) {
+        headingRef.current.removeEventListener("click", handleClick);
+      }
+    };
+  }, [showCanvas]);
+
   return (
     <>
+      <span
+        ref={growingSpan}
+        className="growing rounded-full block fixed top-[-20px] left-[-20px] w-5 h-5 bg-black"
+      ></span>
       <div className="w-full relative min-h-screen">
         {showCanvas &&
           data[0].map((canvasDels, index) => (
@@ -23,9 +63,9 @@ const App = () => {
           ))}
         <div className="w-full h-screen relative z-[1] text-white">
           <Navbar />
-          <div className="textContainer px-[20%] w-full">
+          <div ref={headingRef} className="textContainer px-[20%] w-full">
             <div className="text w-[50%]">
-              <h3 ref={headingref} className="text-3xl leading-[1.2]">
+              <h3 className="text-3xl leading-[1.2]">
                 At Thirtysixstudio, we build immersive digital experiences for
                 brands with a purpose.
               </h3>
