@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <nav className="top-0 w-full flex justify-between items-center px-5 py-3 z-50 bg-transparent">
       <div className="text-lg font-normal">
-        <a href="/" className="text-white no-underline">
+        <a href="/" className="no-underline">
           thirtysixstudios
         </a>
       </div>
@@ -20,7 +20,7 @@ const Navbar = () => {
           <li key={index} className="mx-4">
             <a
               href={link.path}
-              className="text-white no-underline transition-colors duration-300 hover:text-gray-400"
+              className="no-underline transition-colors duration-300"
             >
               {link.name}
             </a>

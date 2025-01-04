@@ -6,6 +6,7 @@ body {
   /* background-color: #fd2c2a; */
   background-color: black;
   font-family: "Helvetica_Now_Display", sans-serif !important;
+  color: #fff;
 }
 
 canvas {

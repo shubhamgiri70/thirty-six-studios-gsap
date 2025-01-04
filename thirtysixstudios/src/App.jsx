@@ -19,23 +19,51 @@ const App = () => {
 
   useEffect(() => {
     const handleClick = (e) => {
-      setShowCanvas((prev) => !prev);
-      gsap.set(growingSpan.current, {
-        top: e.clientY,
-        left: e.clientX,
-        scale: 0,
-      });
+      setShowCanvas((prev) => {
+        const isCanvasVisible = !prev;
 
-      gsap.to(growingSpan.current, {
-        scale: 1000,
-        duration: 1.2,
-        ease: "power2.inOut",
-        onComplete: () => {
+        if (isCanvasVisible) {
           gsap.set(growingSpan.current, {
+            top: e.clientY,
+            left: e.clientX,
             scale: 0,
+          });
+
+          gsap.to("body", {
+            color: "#000",
+            backgroundColor: "#fd2c2a",
+            duration: 1.2,
+            ease: "power2.inOut",
+          });
+
+          gsap.to(growingSpan.current, {
+            scale: 1000,
+            duration: 2,
+            ease: "power2.inOut",
+            onComplete: () => {
+              gsap.set(growingSpan.current, {
+                scale: 0,
+                clearProps: "all",
+              });
+            },
+          });
+        } else {
+          gsap.to("body", {
+            color: "",
+            backgroundColor: "",
+            duration: 1.2,
+            ease: "power2.inOut",
+          });
+
+          gsap.to(growingSpan.current, {
+            scale: 0,
+            duration: 0.5,
+            ease: "power2.inOut",
             clearProps: "all",
           });
-        },
+        }
+
+        return isCanvasVisible;
       });
     };
 
@@ -48,7 +76,7 @@ const App = () => {
         headingRef.current.removeEventListener("click", handleClick);
       }
     };
-  }, [showCanvas]);
+  }, []);
 
   return (
     <>
@@ -61,7 +89,7 @@ const App = () => {
           data[0].map((canvasDels, index) => (
             <Canvas key={index} details={canvasDels} />
           ))}
-        <div className="w-full h-screen relative z-[1] text-white">
+        <div className="w-full h-screen relative z-[1]">
           <Navbar />
           <div ref={headingRef} className="textContainer px-[20%] w-full">
             <div className="text w-[50%]">
@@ -86,7 +114,7 @@ const App = () => {
           </div>
         </div>
       </div>
-      <div className="relative w-full h-screen text-white mt-32 px-10">
+      <div className="relative w-full h-screen mt-32 px-10">
         {data[1].map((canvasDels, index) => (
           <Canvas key={index} details={canvasDels} />
         ))}
